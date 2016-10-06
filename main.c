@@ -10,35 +10,26 @@ void print_array(int* arr, int n);
 bool is_sorted(void* data, int item_size, int n, int (*comparator)(void*,void*));
 
 int main(int argc, char** argv) {
-    test(1000, 1);
-
-    printf("\n");
-    test(10000, 1);
-
-    printf("\n");
-    test(100000, 1);
-
-    printf("\n");
-    test(1000000, 1);
-
-    printf("\n");
-    test(10000000, 1);
-
-    printf("\n");
-    test(1000, 5);
-
-    printf("\n");
-    test(10000, 5);
-
-    printf("\n");
-    test(100000, 5);
-
-    printf("\n");
-    test(1000000, 5);
-
-    printf("\n");
-    test(10000000, 5);
-
+    if (argc == 3) {
+        int n = atoi(argv[1]);
+        if (n != 0) {
+            int numThreads = atoi(argv[2]);
+            if (numThreads != 0) {
+                test(n, numThreads);
+                printf("\n");
+                return 0;
+            }
+        }
+    }
+    printf("\n*** Help Start***");
+    printf("\n\nInput::");
+    printf("\n1st Argument = Number of operations");
+    printf("\n2nd Argument = Number of Threads");
+    printf("\nif num of threads = 1 then we use sequential merge sort else we go with parallel merge sort");
+    printf("\nExample Usage (Sequential) - ./main 10000 1");
+    printf("\nExample Usage (Parallel) - ./main 10000 5");
+    printf("\n\nOutput(CSV)::\ndata_size, number_of_threads, time_in_seconds");
+    printf("\n\n*** Help End***");
     printf("\n");
     return 0;
 }
