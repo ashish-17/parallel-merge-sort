@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -O3 -Wall -I. -lpthread
+CFLAGS = -O3 -Wall -I. -lpthread -lrt
 RM = rm -f
 
 DEPS = utils.h seqMS.h parallelMS.h

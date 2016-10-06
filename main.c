@@ -3,7 +3,7 @@
 #include "utils.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include <sys/time.h>
+#include <time.h>
 
 void test(int n, int numThreads);
 void print_array(int* arr, int n);
@@ -35,10 +35,8 @@ int main(int argc, char** argv) {
 }
 
 void test(int n, int numThreads) {
-    time_t t;
-    struct timeval start, end;
+    struct timespec start={0,0}, end={0,0};
     long double timeTaken = 0.0;
-    srand((unsigned)&t);
     
     int *arr = malloc(sizeof(int) * n);
 
@@ -46,12 +44,12 @@ void test(int n, int numThreads) {
 #ifdef STATS_VERBOSE
     printf("Start generating %d random numbers", n);
 #endif
-    gettimeofday(&start, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &start);
 
     fillWithRandomNumbers(arr, n);
     
-    gettimeofday(&end, NULL);
-    timeTaken = ((end.tv_sec + end.tv_usec / 1000000.0) - (start.tv_sec + start.tv_usec / 1000000.0));
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    timeTaken = ((double)end.tv_sec + 1.0e-9*end.tv_nsec) - ((double)start.tv_sec + 1.0e-9*start.tv_nsec);
 #ifdef STATS_VERBOSE
     printf("\nSuccess filling random numbers (%.6Lf seconds)", timeTaken);
 #endif
@@ -60,7 +58,7 @@ void test(int n, int numThreads) {
 #ifdef STATS_VERBOSE
     printf("\nStart Merge sort operation");
 #endif
-    gettimeofday(&start, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &start);
 
     if (numThreads == 1) {
 #ifdef STATS_VERBOSE
@@ -74,8 +72,8 @@ void test(int n, int numThreads) {
         mergeSortParallel(arr, sizeof(int), n, &intComparator, numThreads);
     }
     
-    gettimeofday(&end, NULL);
-    timeTaken = ((end.tv_sec + end.tv_usec / 1000000.0) - (start.tv_sec + start.tv_usec / 1000000.0));
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    timeTaken = ((double)end.tv_sec + 1.0e-9*end.tv_nsec) - ((double)start.tv_sec + 1.0e-9*start.tv_nsec);
 #ifdef STATS_VERBOSE
     printf("\nMerge sort completed in %.6Lf seconds", timeTaken);
 #else
@@ -86,12 +84,12 @@ void test(int n, int numThreads) {
 #ifdef STATS_VERBOSE
     printf("\nStart Verification");
 #endif
-    gettimeofday(&start, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &start);
     
     bool sorted = is_sorted(arr, sizeof(int), n, &intComparator);
     
-    gettimeofday(&end, NULL);
-    timeTaken = ((end.tv_sec + end.tv_usec / 1000000.0) - (start.tv_sec + start.tv_usec / 1000000.0));
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    timeTaken = ((double)end.tv_sec + 1.0e-9*end.tv_nsec) - ((double)start.tv_sec + 1.0e-9*start.tv_nsec);
     if (sorted) {
 #ifdef STATS_VERBOSE
         printf("\nVerification successful (%.6Lf seconds)", timeTaken);
