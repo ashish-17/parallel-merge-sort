@@ -1,9 +1,9 @@
 CC = gcc
-CFLAGS = -O0 -Wall -I.
+CFLAGS = -O3 -Wall -I. -lpthread
 RM = rm -f
 
-DEPS = utils.h seqMS.h
-OBJ = seqMS.o main.o
+DEPS = utils.h seqMS.h parallelMS.h
+OBJ = seqMS.o parallelMS.o main.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

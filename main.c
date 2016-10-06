@@ -1,4 +1,5 @@
 #include "seqMS.h"
+#include "parallelMS.h"
 #include "utils.h"
 #include <stdio.h>
 #include <sys/time.h>
@@ -14,11 +15,12 @@ int main(int argc, char** argv) {
 
     struct timeval start, end;
     gettimeofday(&start, NULL);
-    mergeSortSeq(arr, sizeof(int), n, &intComparator);
+    mergeSortParallel(arr, sizeof(int), n, &intComparator, 10);
+    //mergeSortSeq(arr, sizeof(int), n, &intComparator);
     gettimeofday(&end, NULL);
     long double timeTaken = ((end.tv_sec + end.tv_usec / 1000000.0) - (start.tv_sec + start.tv_usec / 1000000.0));
-    printf("%.6Lf", timeTaken);
     //print_array(arr, n);
+    printf("\nTime taken = %.6Lf", timeTaken);
     return 0;
 }
 
