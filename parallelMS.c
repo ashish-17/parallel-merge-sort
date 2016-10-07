@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
-
+#include <stdio.h>
 // Privatge data structures
 
 typedef struct thread_data {
@@ -40,9 +40,10 @@ static void mergeSortHelper(void* data, int item_size, int l, int r, int (*compa
             d->r = m;
             d->comparator = comparator;
             d->aux_memory = aux_memory;
-            d->num_threads = num_threads-2;
+            d->num_threads = num_threads/2;
             pthread_create(&thread, NULL, threadRoutine, (void*)d);
-            mergeSortHelper(data, item_size, m+1, r, comparator, aux_memory, num_threads - 2);
+            printf("create\n");
+            mergeSortHelper(data, item_size, m+1, r, comparator, aux_memory, num_threads - d->num_threads);
             pthread_join(thread, NULL);
             free(d);
         } else {
