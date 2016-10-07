@@ -19,8 +19,6 @@ make -f Makefile
 mkdir $fixed_stats_file
 mkdir $var_stats_file
 
-if false 
-then
 for data_size in "${fixed_data_sizes[@]}"
 do
     for thread_count in "${thread_counts[@]}"
@@ -28,7 +26,6 @@ do
         ./main $data_size $thread_count >> ${fixed_stats_file}/${fixed_stats_file}"_"${data_size}".csv" 
     done
 done
-fi
 
 for var_thread_count in "${var_thread_counts[@]}"
 do
