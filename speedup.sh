@@ -1,6 +1,6 @@
 #!/bin/bash
 
-fixed_data_sizes=(10000 100000 1000000)
+fixed_data_sizes=(10000 100000 1000000 10000000)
 fixed_stats_file="fixed_data_stats"
 var_speedup_file="speedup"
 input=""
